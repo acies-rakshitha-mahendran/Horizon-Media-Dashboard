@@ -4,10 +4,13 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 import streamlit.components.v1 as components
+
+
 # -------------------------
 # Page config & styling
 # -------------------------
 st.set_page_config(page_title="Horizon Media | Sustainability Intelligence Dashboard", layout="wide")
+
 
 st.markdown(
     """
@@ -27,16 +30,17 @@ st.markdown(
     --muted: #9ca3af;
 }
 
-/* Apply globally - Force dark background everywhere */
+
 html, body, .stApp, .block-container, [data-testid="stAppViewContainer"] {
     background-color: var(--bg) !important;
     color: var(--text-body) !important;
 }
 
-/* Remove white line above title */
+
 [data-testid="stDecoration"] {
     display: none !important;
 }
+
 
 header[data-testid="stHeader"] {
     background-color: var(--bg) !important;
@@ -44,26 +48,28 @@ header[data-testid="stHeader"] {
     box-shadow: none !important;
 }
 
+
 .block-container {
     padding-top: 0rem !important;
     margin-top: 0 !important;
 }
 
+
 .main > div:first-child {
     padding-top: 0 !important;
 }
 
-/* --- Headings --- */
+
 h1, h2, h3, h4, h5, h6 {
     color: var(--text-title) !important;
 }
 
-/* --- Global Text --- */
+
 p, span, div, label, li {
     color: var(--text-body) !important;
 }
 
-/* --- Title --- */
+
 .title {
     font-size: 42px;
     font-weight: 800;
@@ -72,7 +78,7 @@ p, span, div, label, li {
     color: var(--text-title) !important;
 }
 
-/* --- Buttons (All types) --- */
+
 .stButton > button,
 button[kind="secondary"],
 button[kind="primary"],
@@ -84,7 +90,9 @@ div[data-testid="stFormSubmitButton"] > button {
     border: 1px solid #4a4a4a !important;
     border-radius: 8px !important;
     transition: all 0.2s ease-in-out;
+    height: 42px !important;
 }
+
 
 .stButton > button:hover,
 button[kind="secondary"]:hover,
@@ -96,7 +104,7 @@ div[data-testid="stFormSubmitButton"] > button:hover {
     border-color: #5a5a5a !important;
 }
 
-/* --- Filters, Dropdowns, and Multiselect --- */
+
 .stSelectbox > div > div,
 .stMultiSelect > div > div,
 div[data-baseweb="select"] > div {
@@ -106,46 +114,53 @@ div[data-baseweb="select"] > div {
     border-radius: 8px !important;
 }
 
+
 .stSelectbox label,
 .stMultiSelect label {
     color: var(--text-body) !important;
 }
 
-.stMultiSelect span, 
-.stSelectbox span, 
-.stMultiSelect input, 
+
+.stMultiSelect span,
+.stSelectbox span,
+.stMultiSelect input,
 .stSelectbox input {
     color: var(--button-text) !important;
 }
 
-/* Dropdown options menu */
+
 [data-baseweb="popover"],
 [data-baseweb="popover"] * {
     background-color: var(--button-bg) !important;
 }
+
 
 [data-baseweb="select"] > div,
 [data-baseweb="menu"] {
     background-color: var(--button-bg) !important;
 }
 
+
 [data-baseweb="menu"] li {
     color: var(--button-text) !important;
     background-color: var(--button-bg) !important;
 }
 
+
 [data-baseweb="menu"] li:hover {
     background-color: var(--button-hover) !important;
 }
 
-/* --- File Uploader --- */
+
 [data-testid="stFileUploader"] {
     margin-top: 20px !important;
 }
 
+
 [data-testid="stFileUploader"] > div {
     background-color: transparent !important;
 }
+
 
 [data-testid="stFileUploadDropzone"],
 [data-testid="stFileUploader"] section {
@@ -154,10 +169,12 @@ div[data-baseweb="select"] > div {
     border-radius: 8px !important;
 }
 
+
 [data-testid="stFileUploadDropzone"] *,
 [data-testid="stFileUploader"] section * {
     color: var(--text-body) !important;
 }
+
 
 [data-testid="stFileUploadDropzone"] button,
 [data-testid="stFileUploader"] button {
@@ -166,20 +183,21 @@ div[data-baseweb="select"] > div {
     border: 1px solid #4a4a4a !important;
 }
 
+
 [data-testid="stFileUploader"] label {
     color: var(--text-body) !important;
 }
 
-/* --- Filters Container --- */
+
 .filters {
     display: flex;
     gap: 12px;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-bottom: 16px;
 }
 
-/* --- KPI Cards --- */
+
 .kpi-row {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -187,13 +205,16 @@ div[data-baseweb="select"] > div {
     margin-bottom: 8px;
 }
 
+
 .kpi-row:first-of-type {
     margin-bottom: 8px;
 }
 
+
 .kpi-row:last-of-type {
     margin-bottom: 30px;
 }
+
 
 .kpi-card {
     background: var(--card);
@@ -209,11 +230,77 @@ div[data-baseweb="select"] > div {
     transition: all 0.3s ease;
 }
 
+
 .kpi-card:hover {
     z-index: 100;
     transform: scale(1.05);
-    box-shadow: 0 8px 24px rgba(59,130,246,0.4);
 }
+
+
+.kpi-card-emissions {
+    border-left: 4px solid var(--em);
+}
+
+
+.kpi-card-emissions:hover {
+    box-shadow: 0 8px 24px rgba(249,115,22,0.4);
+}
+
+
+.kpi-card-biz {
+  border-left: 4px solid var(--accent);
+}
+
+
+.kpi-card-biz:hover {
+  box-shadow: 0 8px 24px rgba(59,130,246,0.4);
+}
+
+
+.kpi-info-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: var(--muted);
+    font-size: 10px;
+    cursor: help;
+    padding: 2px;
+    border-radius: 50%;
+    transition: color 0.2s;
+    user-select: none;
+}
+
+.kpi-info-button:hover {
+    color: var(--accent);
+}
+
+
+.kpi-info-button .tooltip-text {
+    visibility: hidden;
+    width: 150px;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 101;
+    top: 20px;
+    right: 0px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+    line-height: 1.3;
+    white-space: normal;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+
+.kpi-info-button:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
 
 .kpi-label {
     color: var(--muted);
@@ -226,6 +313,7 @@ div[data-baseweb="select"] > div {
     text-overflow: ellipsis;
 }
 
+
 .kpi-value {
     color: var(--text-title) !important;
     font-size: 22px;
@@ -237,6 +325,7 @@ div[data-baseweb="select"] > div {
     transition: all 0.3s ease;
 }
 
+
 .kpi-card:hover .kpi-value,
 .kpi-card:hover .kpi-label {
     white-space: normal;
@@ -244,11 +333,12 @@ div[data-baseweb="select"] > div {
     word-break: break-word;
 }
 
+
 .kpi-card:hover .kpi-value {
     font-size: 20px;
 }
 
-/* --- Chart Cards --- */
+
 .chart-card {
     background: var(--card);
     border-radius: 10px;
@@ -258,28 +348,87 @@ div[data-baseweb="select"] > div {
     margin-bottom: 20px;
 }
 
-/* --- Recommendation Block --- */
+
 .reco-block {
     background: var(--card);
     border-radius: 12px;
     padding: 18px;
     border: 1px solid var(--card-border);
     margin-top: 0px;
+    margin-bottom: 30px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.35);
 }
 
-/* Remove box below recommendations */
+
+.reco-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    border: 1px solid var(--card-border);
+}
+
+.reco-table th, .reco-table td {
+    border: 1px solid var(--card-border);
+    padding: 12px 16px;
+    vertical-align: top;
+    text-align: left;
+    width: 33.33%;
+}
+
+.reco-table th {
+    background-color: #2a2a2a;
+    color: var(--text-title);
+    font-size: 16px;
+}
+
+.reco-table td {
+    background-color: var(--card);
+    min-height: 200px;
+}
+
+.reco-table ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.reco-table li {
+    margin-bottom: 12px;
+    color: var(--text-body) !important;
+    line-height: 1.4;
+    list-style-type: disc;
+}
+
+.reco-table ul {
+    list-style-type: disc;
+    color: var(--text-body);
+}
+
+.reco-table li > span {
+    color: inherit;
+}
+
+.small-muted {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.roas-good { color: #4ade80 !important; }
+.roas-bad { color: #f87171 !important; }
+.roas-neutral { color: #fbbf24 !important; }
+
+.emiss-good { color: #4ade80 !important; }
+.emiss-bad { color: #f87171 !important; }
+.emiss-neutral { color: #3b82f6 !important; }
+
 .reco-block + div,
 .element-container:has(+ .element-container > div > .reco-block) {
     display: none !important;
 }
 
-/* Remove thin line below recommendations */
 hr {
     display: none !important;
 }
 
-/* --- Dataframe --- */
 [data-testid="stDataFrame"],
 [data-testid="stDataFrame"] * {
     color: var(--text-body) !important;
@@ -289,89 +438,22 @@ hr {
     color: var(--text-body) !important;
 }
 
-/* --- Misc --- */
-.small-muted {
-    color: var(--muted);
-    font-size: 13px;
-}
-
-/* Hide widget warnings */
 .stAlert {
     display: none !important;
 }
-/* ------------------------- */
-/* TITLE POSITION FIX        */
-/* ------------------------- */
+
 .title {
-    margin-top: 50px !important;  /* move title down */
-    text-align: center !important; /* center align title */
-}
-
-/* ------------------------- */
-/* DATAFRAME COLOR FIX       */
-/* ------------------------- */
-[data-testid="stDataFrame"] table {
-    background-color: #ffffff !important;  /* white background */
-    color: #333333 !important;             /* dark grey text */
-    border-radius: 10px !important;
-}
-
-[data-testid="stDataFrame"] thead tr th {
-    background-color: #f1f1f1 !important;  /* light grey header */
-    color: #000000 !important;
-    font-weight: 600 !important;
+    margin-top: 50px !important;
     text-align: center !important;
 }
-
-[data-testid="stDataFrame"] tbody tr td {
-    background-color: #ffffff !important;
-    color: #333333 !important;
-    text-align: center !important;
-}
-
-[data-testid="stDataFrame"] tbody tr:nth-child(even) td {
-    background-color: #f8f8f8 !important;  /* alternate row striping */
-}
-/* ------------------------- */
-/* FILTERED DATA PREVIEW FIX */
-/* ------------------------- */
-[data-testid="stDataFrame"] {
-    background-color: #2a2a2a !important;  /* dark grey container */
-    border-radius: 10px !important;
-}
-
-/* Table background and text color */
-[data-testid="stDataFrame"] table {
-    background-color: #2a2a2a !important;  /* grey background */
-    color: #ffffff !important;             /* white text */
-}
-
-/* Header styling */
-[data-testid="stDataFrame"] thead tr th {
-    background-color: #3a3a3a !important;  /* slightly darker header */
-    color: #ffffff !important;             /* white text */
-    font-weight: 600 !important;
-    text-align: center !important;
-}
-
-/* Body cells */
-[data-testid="stDataFrame"] tbody tr td {
-    background-color: #2a2a2a !important;  /* grey background */
-    color: #ffffff !important;
-    text-align: center !important;
-}
-
-/* Alternate row subtle contrast */
-[data-testid="stDataFrame"] tbody tr:nth-child(even) td {
-    background-color: #333333 !important;
-}
-
 </style>
     """,
     unsafe_allow_html=True,
 )
 
+
 st.markdown('<div class="title">Horizon Media | Sustainability Intelligence Dashboard</div>', unsafe_allow_html=True)
+
 
 # -------------------------
 # Helpers
@@ -388,6 +470,7 @@ def safe_div(a, b):
     except Exception:
         return 0.0
 
+
 def fmt_money(n):
     if pd.isna(n):
         return "$0"
@@ -397,6 +480,7 @@ def fmt_money(n):
     if abs(n) >= 1e3: return f"${n/1e3:.1f}K"
     return f"${n:,.0f}"
 
+
 def fmt_count(n):
     if pd.isna(n):
         return "0"
@@ -405,8 +489,11 @@ def fmt_count(n):
     if abs(n) >= 1e3: return f"{n/1e3:.1f}K"
     return f"{int(n):,}" if float(n).is_integer() else f"{n:.2f}"
 
+
 BLUE_PALETTE = ["#c7d2fe","#93c5fd","#60a5fa","#3b82f6","#2563eb","#1d4ed8","#1e40af","#1e3a8a"]
 EMISSIONS_COLOR = "#f97316"
+EMISSIONS_UNIT_LABEL = "g CO₂e"
+
 
 def blue_gradient(n):
     seq = BLUE_PALETTE
@@ -418,23 +505,18 @@ def blue_gradient(n):
         return [seq[i] for i in idxs]
     return [seq[i % len(seq)] for i in range(n)]
 
-UNIT_FACTORS = {"g":1.0, "kg":1.0/1000.0, "mg":1000.0, "µg":1_000_000.0, "t":1.0/1_000_000.0}
-UNIT_LABELS = {"g":"g CO₂e","kg":"kg CO₂e","mg":"mg CO₂e","µg":"µg CO₂e","t":"tonnes CO₂e"}
 
-def convert_from_grams(val_g, unit):
-    return val_g * UNIT_FACTORS.get(unit, 1.0)
-
-def human_emission_str(val_g):
+def display_emission(val_g):
     if pd.isna(val_g):
-        return "0 g"
-    kg = val_g / 1000.0
-    if kg >= 1000:
-        return f"{kg/1000:.2f} t"
-    if kg >= 1:
-        return f"{kg:.2f} kg"
-    if val_g >= 1:
-        return f"{val_g:.2f} g"
-    return f"{val_g*1000:.2f} mg"
+        return f"0 {EMISSIONS_UNIT_LABEL}"
+    return f"{float(val_g):,.2f} {EMISSIONS_UNIT_LABEL}"
+
+
+def display_emission_1000(val_g_1000):
+    if pd.isna(val_g_1000):
+        return f"0.00 {EMISSIONS_UNIT_LABEL}"
+    return f"{float(val_g_1000):,.2f} {EMISSIONS_UNIT_LABEL}"
+
 
 # -------------------------
 # Upload CSV
@@ -452,8 +534,9 @@ except Exception as e:
 
 df.columns = df.columns.str.strip().str.upper()
 
+
 # -------------------------
-# Robust cascading filters with stable dynamic options and safe reset
+# Cascading Filters & Reset Logic
 # -------------------------
 filter_order = [
     ("Advertiser ID", "ADVERTISER_ID"),
@@ -465,7 +548,6 @@ filter_order = [
     ("Region", "REGION"),
 ]
 
-# initialize persistent keys
 for _, col in filter_order:
     key = f"f_{col}"
     if key not in st.session_state:
@@ -478,43 +560,29 @@ def _reset_filters():
     st.session_state.reset_trigger = True
 
 st.markdown('<div class="filters">', unsafe_allow_html=True)
-cols = st.columns([1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.6])
+cols = st.columns([1, 1, 1, 1, 1, 1, 1, 0.85], gap="small")
 
-# precompute full option space for each filter column
-all_options = {
-    col: sorted(df[col].dropna().unique()) if col in df.columns else []
-    for _, col in filter_order
-}
-
-# build filters sequentially but derive allowed values logically each pass
 current_df = df.copy()
-for (label, col), holder in zip(filter_order, cols[:-1]):
-    with holder:
-        # derive allowed options using selections in previous filters
-        # (based on currently filtered subset)
+
+for (label, col), col_idx in zip(filter_order, range(7)):
+    with cols[col_idx]:
         allowed_opts = sorted(current_df[col].dropna().unique()) if col in current_df.columns else []
         sel_key = f"f_{col}"
-
-        # sanitize defaults (keep only values that exist in allowed_opts)
         existing = st.session_state.get(sel_key, [])
         if not isinstance(existing, list):
             existing = [existing] if existing else []
         safe_default = [v for v in existing if v in allowed_opts]
-
         st.multiselect(label, options=allowed_opts, default=safe_default, key=sel_key)
-
-        # filter a *fresh* copy for downstream logic (don't mutate in place)
         selected = st.session_state.get(sel_key, [])
         if selected and col in current_df.columns:
-            current_df = df[df[col].isin(selected)]  # filter from original df for stability
+            current_df = current_df[current_df[col].isin(selected)]
 
-# Reset button
-with cols[-1]:
-    st.button("Reset Filters", key="reset_filters_btn", on_click=_reset_filters)
+with cols[7]:
+    st.markdown("<div style='height: 22px;'></div>", unsafe_allow_html=True)
+    st.button("Reset", key="reset_filters_btn", on_click=_reset_filters, use_container_width=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# handle reset outside callback
 if st.session_state.reset_trigger:
     for _, c in filter_order:
         key = f"f_{c}"
@@ -523,7 +591,6 @@ if st.session_state.reset_trigger:
     st.session_state.reset_trigger = False
     st.rerun()
 
-# final filtered dataset
 filtered = df.copy()
 for _, col in filter_order:
     sel = st.session_state.get(f"f_{col}", [])
@@ -534,12 +601,6 @@ if filtered.empty:
     st.warning("No rows match the selected filters.")
     st.stop()
 
-
-# -------------------------
-# Emissions unit selector
-# -------------------------
-emissions_unit = st.selectbox("Emissions unit", options=["kg","g","mg","µg","t"], index=0)
-emissions_unit_label = UNIT_LABELS.get(emissions_unit, "kg CO₂e")
 
 # -------------------------
 # Aggregations & KPIs
@@ -553,6 +614,7 @@ def compute_totals(df_local):
         "REVENUE": df_local["REVENUE"].sum() if "REVENUE" in df_local.columns else 0,
         "SPEND": df_local["SPEND"].sum() if "SPEND" in df_local.columns else 0,
         "TOTAL_EMISSIONS_GRAMS": df_local["TOTAL_EMISSIONS_GRAMS"].sum() if "TOTAL_EMISSIONS_GRAMS" in df_local.columns else 0,
+        "UNIQUE_CAMPAIGNS": df_local["CAMPAIGN_ID"].nunique() if "CAMPAIGN_ID" in df_local.columns else 0,
     }
 
 totals = compute_totals(filtered)
@@ -562,62 +624,81 @@ total_clicks = totals["TOTAL_CLICKS"]
 total_revenue = totals["REVENUE"]
 total_spend = totals["SPEND"]
 total_emissions_g = totals["TOTAL_EMISSIONS_GRAMS"]
+total_campaigns = totals["UNIQUE_CAMPAIGNS"]
 
-emissions_per_conv_g = safe_div(total_emissions_g, total_conversions)
-emissions_per_impr_g = safe_div(total_emissions_g, total_impressions)
-emissions_per_dollar_mg = safe_div(total_emissions_g, total_spend) * 1000.0
+emissions_per_1000_impr_g = safe_div(total_emissions_g, total_impressions) * 1000.0
+emissions_per_1000_click_g = safe_div(total_emissions_g, total_clicks) * 1000.0
+emissions_per_1000_conv_g = safe_div(total_emissions_g, total_conversions) * 1000.0
+emissions_per_1000_spent_g = safe_div(total_emissions_g, total_spend) * 1000.0
+avg_emission_per_campaign_g = safe_div(total_emissions_g, total_campaigns)
 
 avg_cpc = safe_div(total_spend, total_clicks)
 avg_cpm = safe_div(total_spend, total_impressions) * 1000.0
 engagement_rate = safe_div(total_clicks, total_impressions) * 100.0
 conversion_rate = safe_div(total_conversions, total_impressions) * 100.0
-roas = safe_div(total_revenue, total_spend)
+impr_per_1000_dollars = safe_div(total_impressions, total_spend) * 1000.0
 
-def display_emission(val_g, unit=emissions_unit):
-    return f"{convert_from_grams(val_g, unit):,.2f} {UNIT_LABELS.get(unit)}"
-
-# KPI rows (emissions-focused first)
 row1 = [
-    ("Total Emissions", display_emission(total_emissions_g), "sum(TOTAL_EMISSIONS_GRAMS)"),
-    ("Emissions / Conversion", f"{convert_from_grams(emissions_per_conv_g, emissions_unit):.4f} {UNIT_LABELS.get(emissions_unit)}", ""),
-    ("Emissions / Impression", f"{convert_from_grams(emissions_per_impr_g, emissions_unit):.4f} {UNIT_LABELS.get(emissions_unit)}", ""),
-    ("Emissions / $ Spent", f"{emissions_per_dollar_mg:,.0f} mg/$", ""),
-    ("Engagement Rate", f"{engagement_rate:.2f}%", ""),
-    ("Conversion Rate", f"{conversion_rate:.2f}%", ""),
+    ("Emissions / 1k Impr", display_emission_1000(emissions_per_1000_impr_g), "emissions_kpi"),
+    ("Emissions / 1k Click", display_emission_1000(emissions_per_1000_click_g), "emissions_kpi"),
+    ("Emissions / 1k Conv", display_emission_1000(emissions_per_1000_conv_g), "emissions_kpi"),
+    ("Conversion Rate", f"{conversion_rate:.2f}%", "biz_kpi"),
+    ("Engagement Rate", f"{engagement_rate:.2f}%", "biz_kpi"),
+    ("Impr. / $1k Spent", fmt_count(impr_per_1000_dollars), "biz_kpi"),
 ]
 
 row2 = [
-    ("Total Impressions (M)", f"{total_impressions/1e6:.2f}M", ""),
-    ("Total Conversions", fmt_count(total_conversions), ""),
-    ("Total Revenue", fmt_money(total_revenue), ""),
-    ("Total Spend", fmt_money(total_spend), ""),
-    ("Avg. CPC", fmt_money(avg_cpc), ""),
-    ("Avg. CPM", fmt_money(avg_cpm), ""),
+    ("Total Emissions", display_emission(total_emissions_g), "emissions_kpi"),
+    ("Emissions / $1k Spent", display_emission_1000(emissions_per_1000_spent_g), "emissions_kpi"),
+    ("Emissions / Campaign", display_emission(avg_emission_per_campaign_g), "emissions_kpi"),
+    ("Total Spend", fmt_money(total_spend), "biz_kpi"),
+    ("CPC", fmt_money(avg_cpc), "biz_kpi"),
+    ("CPM", fmt_money(avg_cpm), "biz_kpi"),
 ]
 
 def render_kpi_row(items):
+    tooltips = {
+        "CPC": "Cost Per Click",
+        "CPM": "Cost Per Mille (1,000 Impressions)",
+    }
+
     cols_kpi = st.columns(len(items), gap="small")
-    for c, (label, value, tooltip) in zip(cols_kpi, items):
-        c.markdown(f"<div class='kpi-card' title='{tooltip}'><div class='kpi-label'>{label}</div><div class='kpi-value'>{value}</div></div>", unsafe_allow_html=True)
+    for c, (label, value, kpi_type) in zip(cols_kpi, items):
+        if kpi_type == "emissions_kpi":
+            card_class = "kpi-card kpi-card-emissions"
+        elif kpi_type == "biz_kpi":
+            card_class = "kpi-card kpi-card-biz"
+        else:
+            card_class = "kpi-card"
+
+        info_button_html = ""
+        if label in tooltips:
+            tooltip_text = tooltips[label]
+            info_button_html = f"<div class='kpi-info-button'>ⓘ<span class='tooltip-text'>{tooltip_text}</span></div>"
+
+        c.markdown(f"<div class='{card_class}' title='{label}'>{info_button_html}<div class='kpi-label'>{label}</div><div class='kpi-value'>{value}</div></div>", unsafe_allow_html=True)
 
 render_kpi_row(row1)
 st.markdown("<div style='margin-bottom:8px;'></div>", unsafe_allow_html=True)
 render_kpi_row(row2)
 
+st.markdown("<div style='margin-bottom: 40px;'></div>", unsafe_allow_html=True)
+
+
 # -------------------------
-# Chart utilities (final stacked_with_emissions replacement)
+# Chart Utilities
 # -------------------------
 def ordered_cats_by_value(df_local, x_col, value_col, top_n=12):
     if x_col not in df_local.columns or value_col not in df_local.columns:
         return []
     return df_local.groupby(x_col)[value_col].sum().sort_values(ascending=False).head(top_n).index.tolist()
 
+
 def stacked_with_emissions(df_local, x_col, stack_col, value_col, emissions_col, title, top_n=12):
     if x_col not in df_local.columns or value_col not in df_local.columns:
         return None
 
     tmp = df_local.copy()
-    # detect datetime-like
     is_datetime_like = False
     try:
         if np.issubdtype(tmp[x_col].dtype, np.datetime64):
@@ -632,9 +713,7 @@ def stacked_with_emissions(df_local, x_col, stack_col, value_col, emissions_col,
         is_datetime_like = False
 
     if is_datetime_like:
-        # take most recent top_n weeks/dates by value or last top_n dates
         order_index = tmp.groupby(tmp[x_col])[value_col].sum().sort_index().index.tolist()
-        # keep last top_n (chronological)
         cats = order_index[-top_n:]
         cats = sorted(cats)
         x_labels = [pd.to_datetime(c).strftime("%Y-%m-%d") for c in cats]
@@ -669,31 +748,26 @@ def stacked_with_emissions(df_local, x_col, stack_col, value_col, emissions_col,
     emiss_raw = []
     for c in cats:
         emiss_raw.append(d.loc[d[x_col] == c, emissions_col].sum())
-
-    emiss_vals = [convert_from_grams(v, emissions_unit) for v in emiss_raw]
+    emiss_vals = [float(v) for v in emiss_raw]
 
     fig.add_trace(
         go.Scatter(
             x=x_labels,
             y=emiss_vals,
-            name=f"Emissions ({UNIT_LABELS.get(emissions_unit)})",
+            name=f"Emissions ({EMISSIONS_UNIT_LABEL})",
             mode="lines+markers",
             line=dict(color=EMISSIONS_COLOR, width=2, shape="spline"),
             marker=dict(size=6),
             connectgaps=True,
             yaxis="y2",
-            hovertemplate="%{y:.3f} " + UNIT_LABELS.get(emissions_unit) + "<br>%{x}<extra></extra>",
+            hovertemplate="%{y:.3f} " + EMISSIONS_UNIT_LABEL + "<br>%{x}<extra></extra>",
         )
     )
 
     numeric_emiss = [v for v in emiss_vals if v is not None]
     min_e = float(min(numeric_emiss)) if numeric_emiss else 0.0
     max_e = float(max(numeric_emiss)) if numeric_emiss else 0.0
-    if max_e > 0:
-        buffer_low = min_e * 0.08 if min_e > 0 else 0
-        y2_range = [max(0, min_e - buffer_low), max_e * 1.12]
-    else:
-        y2_range = None
+    y2_range = [max(0, min_e * 0.9), max_e * 1.1] if max_e > 0 else None
 
     fig.update_layout(
         title=title or "",
@@ -701,13 +775,9 @@ def stacked_with_emissions(df_local, x_col, stack_col, value_col, emissions_col,
         barmode="stack",
         hovermode="x unified",
         xaxis=dict(tickangle=-30, automargin=True, tickfont=dict(size=10, color="#e0e0e0")),
-        yaxis=dict(
-            title=dict(text=value_col, font=dict(color="#e0e0e0")),
-            automargin=True,
-            tickfont=dict(color="#e0e0e0")
-        ),
+        yaxis=dict(title=dict(text=value_col, font=dict(color="#e0e0e0")), automargin=True, tickfont=dict(color="#e0e0e0")),
         yaxis2=dict(
-            title=dict(text=f"Emissions ({UNIT_LABELS.get(emissions_unit)})", font=dict(color="#e0e0e0")),
+            title=dict(text=f"Emissions ({EMISSIONS_UNIT_LABEL})", font=dict(color="#e0e0e0")),
             overlaying="y",
             side="right",
             showgrid=False,
@@ -721,11 +791,11 @@ def stacked_with_emissions(df_local, x_col, stack_col, value_col, emissions_col,
         plot_bgcolor='rgba(26,26,26,0.5)',
         font=dict(color='#e0e0e0')
     )
-
     if y2_range:
         fig.layout.yaxis2.update(range=y2_range)
 
     return fig
+
 
 def bar_with_emissions(df_local, x_col, bar_col, emissions_col, title, top_n=12):
     if x_col not in df_local.columns or bar_col not in df_local.columns:
@@ -737,43 +807,30 @@ def bar_with_emissions(df_local, x_col, bar_col, emissions_col, title, top_n=12)
 
     d = df_local[df_local[x_col].isin(cats)].copy()
     bar_vals = [d[d[x_col] == c][bar_col].sum() for c in cats]
-    emiss_vals = [convert_from_grams(d[d[x_col] == c][emissions_col].sum(), emissions_unit) for c in cats]
+    emiss_vals = [float(d[d[x_col] == c][emissions_col].sum()) for c in cats]
 
     fig = go.Figure()
-
     fig.add_trace(
-        go.Bar(
-            x=cats,
-            y=bar_vals,
-            name=bar_col,
-            marker_color=blue_gradient(1)[0],
-            hovertemplate="%{y:,.0f}<extra></extra>",
-        )
+        go.Bar(x=cats, y=bar_vals, name=bar_col, marker_color=BLUE_PALETTE[3], hovertemplate="%{y:,.0f}<extra></extra>")
     )
-
     fig.add_trace(
         go.Scatter(
             x=cats,
             y=emiss_vals,
-            name=f"Emissions ({UNIT_LABELS.get(emissions_unit)})",
+            name=f"Emissions ({EMISSIONS_UNIT_LABEL})",
             mode="lines+markers",
             line=dict(color=EMISSIONS_COLOR, width=2),
             marker=dict(size=6),
             yaxis="y2",
-            hovertemplate="%{y:.3f} " + UNIT_LABELS.get(emissions_unit) + "<extra></extra>",
+            hovertemplate="%{y:.3f} " + EMISSIONS_UNIT_LABEL + "<extra></extra>",
         )
     )
-
     fig.update_layout(
         title=title or "",
         title_font=dict(color="#ffffff"),
-        yaxis=dict(
-            title=dict(text=bar_col, font=dict(color="#e0e0e0")),
-            automargin=True,
-            tickfont=dict(color="#e0e0e0")
-        ),
+        yaxis=dict(title=dict(text=bar_col, font=dict(color="#e0e0e0")), automargin=True, tickfont=dict(color="#e0e0e0")),
         yaxis2=dict(
-            title=dict(text=f"Emissions ({UNIT_LABELS.get(emissions_unit)})", font=dict(color="#e0e0e0")),
+            title=dict(text=f"Emissions ({EMISSIONS_UNIT_LABEL})", font=dict(color="#e0e0e0")),
             overlaying="y",
             side="right",
             showgrid=False,
@@ -782,32 +839,20 @@ def bar_with_emissions(df_local, x_col, bar_col, emissions_col, title, top_n=12)
         ),
         margin=dict(l=64, r=200, t=60, b=100),
         hovermode="x unified",
-        legend=dict(
-            orientation="h",
-            y=-0.35,
-            xanchor="center",
-            x=0.5,
-            font=dict(color="#e0e0e0")
-        ),
-        xaxis=dict(
-            tickangle=-30,
-            automargin=True,
-            tickfont=dict(size=10, color="#e0e0e0")
-        ),
+        legend=dict(orientation="h", y=-0.35, xanchor="center", x=0.5, font=dict(color="#e0e0e0")),
+        xaxis=dict(tickangle=-30, automargin=True, tickfont=dict(size=10, color="#e0e0e0")),
         height=520,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(26,26,26,0.5)",
         font=dict(color="#e0e0e0")
     )
-
     return fig
 
+
 def pie_blue(df_local, name_col, value_col, top_n=12, title=None):
-    # allow calling as pie_blue(df, "INDUSTRY", "TOTAL_EMISSIONS_GRAMS", "Title")
     if isinstance(top_n, str) and title is None:
         title = top_n
         top_n = 12
-
     if name_col not in df_local.columns or value_col not in df_local.columns:
         return None
 
@@ -832,6 +877,7 @@ def pie_blue(df_local, name_col, value_col, top_n=12, title=None):
     )
     return fig
 
+
 def two_per_row(fig1, fig2):
     c1, c2 = st.columns(2, gap="large")
     with c1:
@@ -842,36 +888,36 @@ def two_per_row(fig1, fig2):
             st.plotly_chart(fig2, use_container_width=True)
     st.markdown("<div style='margin-bottom:30px;'></div>", unsafe_allow_html=True)
 
-# -------------------------
-# Build the 15 charts
-# -------------------------
-chart1  = stacked_with_emissions(filtered,"INVENTORY_ID","AD_FORMAT","TOTAL_IMPRESSIONS","TOTAL_EMISSIONS_GRAMS","Emissions & Impressions — Inventory (stacked)")
-chart2  = stacked_with_emissions(filtered,"INDUSTRY","AD_FORMAT","TOTAL_IMPRESSIONS","TOTAL_EMISSIONS_GRAMS","Emissions & Impressions — Industry (stacked)")
-chart3  = stacked_with_emissions(filtered,"REGION","AD_FORMAT","TOTAL_IMPRESSIONS","TOTAL_EMISSIONS_GRAMS","Emissions & Impressions — Region (stacked)")
-chart4  = stacked_with_emissions(filtered,"DEVICE_TYPE","AD_FORMAT","TOTAL_IMPRESSIONS","TOTAL_EMISSIONS_GRAMS","Emissions & Impressions — Device (stacked)")
 
+# -------------------------
+# Chart Definitions
+# -------------------------
+chart1  = stacked_with_emissions(filtered,"INVENTORY_ID","AD_FORMAT","TOTAL_IMPRESSIONS","TOTAL_EMISSIONS_GRAMS","Inventory Performance: Impressions vs. Emissions")
+chart2  = stacked_with_emissions(filtered,"INDUSTRY","AD_FORMAT","TOTAL_IMPRESSIONS","TOTAL_EMISSIONS_GRAMS","Industry Performance: Impressions vs. Emissions")
+chart3  = stacked_with_emissions(filtered,"REGION","AD_FORMAT","TOTAL_IMPRESSIONS","TOTAL_EMISSIONS_GRAMS","Regional Performance: Impressions vs. Emissions")
+chart4  = stacked_with_emissions(filtered,"DEVICE_TYPE","AD_FORMAT","TOTAL_IMPRESSIONS","TOTAL_EMISSIONS_GRAMS","Device Performance: Impressions vs. Emissions")
 if "DATE" in filtered.columns:
     tmp = filtered.copy()
     tmp["DATE"] = pd.to_datetime(tmp["DATE"], errors="coerce")
     tmp = tmp.dropna(subset=["DATE"])
     tmp["WEEK"] = tmp["DATE"].dt.to_period("W-MON").apply(lambda r: r.start_time)
-    chart5 = stacked_with_emissions(tmp,"WEEK","AD_FORMAT","TOTAL_IMPRESSIONS","TOTAL_EMISSIONS_GRAMS","Emissions & Impressions — Over Time (Weekly)")
+    chart5 = stacked_with_emissions(tmp,"WEEK","AD_FORMAT","TOTAL_IMPRESSIONS","TOTAL_EMISSIONS_GRAMS","Weekly Trend: Impressions vs. Emissions")
 else:
     chart5 = None
+chart6  = pie_blue(filtered,"INDUSTRY","TOTAL_EMISSIONS_GRAMS","Total Emissions Breakdown by Industry")
+chart7  = bar_with_emissions(filtered,"REGION","TOTAL_CONVERSIONS","TOTAL_EMISSIONS_GRAMS","Regional Conversions vs. Emissions")
+chart8  = bar_with_emissions(filtered,"DEVICE_TYPE","TOTAL_IMPRESSIONS","TOTAL_EMISSIONS_GRAMS","Device Impressions vs. Emissions")
+chart9  = stacked_with_emissions(filtered,"INDUSTRY","DEVICE_TYPE","TOTAL_CONVERSIONS","TOTAL_EMISSIONS_GRAMS","Industry Conversions vs. Emissions")
+chart10 = bar_with_emissions(filtered,"ADVERTISER_ID","SPEND","TOTAL_EMISSIONS_GRAMS","Advertiser Spend vs. Emissions")
+chart11 = pie_blue(filtered,"REGION","SPEND","Total Spend Distribution by Region")
+chart12 = stacked_with_emissions(filtered,"ADVERTISER_ID","AD_FORMAT","SPEND","TOTAL_EMISSIONS_GRAMS","Advertiser Spend vs. Emissions")
+chart13 = stacked_with_emissions(filtered,"AD_FORMAT","DEVICE_TYPE","TOTAL_CLICKS","TOTAL_EMISSIONS_GRAMS","Ad Format Clicks vs. Emissions")
+chart14 = pie_blue(filtered,"DEVICE_TYPE","TOTAL_CONVERSIONS","Total Conversions Distribution by Device")
+chart15 = stacked_with_emissions(filtered,"AD_FORMAT","DEVICE_TYPE","TOTAL_CONVERSIONS","TOTAL_EMISSIONS_GRAMS","Ad Format Conversions vs. Emissions")
 
-chart6  = pie_blue(filtered,"INDUSTRY","TOTAL_EMISSIONS_GRAMS","Emissions Share by Industry")
-chart7  = bar_with_emissions(filtered,"REGION","TOTAL_CONVERSIONS","TOTAL_EMISSIONS_GRAMS","Emissions per Conversion by Region")
-chart8  = bar_with_emissions(filtered,"DEVICE_TYPE","TOTAL_IMPRESSIONS","TOTAL_EMISSIONS_GRAMS","Emissions per Impression by Device Type")
-chart9  = stacked_with_emissions(filtered,"INDUSTRY","DEVICE_TYPE","TOTAL_CONVERSIONS","TOTAL_EMISSIONS_GRAMS","Conversions by Industry (stacked by Device) + Emissions")
-chart10 = bar_with_emissions(filtered,"ADVERTISER_ID","SPEND","TOTAL_EMISSIONS_GRAMS","Emissions per $ Spend by Advertiser")
-chart11 = pie_blue(filtered,"REGION","SPEND","Spend Distribution by Region")
-chart12 = stacked_with_emissions(filtered,"ADVERTISER_ID","AD_FORMAT","SPEND","TOTAL_EMISSIONS_GRAMS","Revenue vs Spend by Advertiser + Emissions")
-chart13 = stacked_with_emissions(filtered,"AD_FORMAT","DEVICE_TYPE","TOTAL_CLICKS","TOTAL_EMISSIONS_GRAMS","Average CPC by Ad Format + Emissions")
-chart14 = pie_blue(filtered,"DEVICE_TYPE","TOTAL_CONVERSIONS","Conversions Share by Device Type")
-chart15 = stacked_with_emissions(filtered,"AD_FORMAT","DEVICE_TYPE","TOTAL_CONVERSIONS","TOTAL_EMISSIONS_GRAMS","Combined Efficiency View — Emissions per Impression & Conversion")
 
 # -------------------------
-# Layout: two charts per row, in the requested order
+# Chart Layout
 # -------------------------
 two_per_row(chart1, chart2)
 two_per_row(chart3, chart4)
@@ -882,9 +928,18 @@ two_per_row(chart10, chart15)
 two_per_row(chart6, chart11)
 two_per_row(chart14, None)
 
+
 # -------------------------
-# Recommendations (polished)
+# Recommendations Block
 # -------------------------
+def format_list_as_html_table_cell(list_items):
+    html = "<ul>"
+    for item in list_items:
+        html += f"<li>{item}</li>"
+    html += "</ul>"
+    return html
+
+
 def recommendations_block(df_local):
     if df_local.empty or not {"SPEND","REVENUE","TOTAL_EMISSIONS_GRAMS"}.issubset(df_local.columns):
         st.warning("Not enough data for recommendations.")
@@ -892,97 +947,207 @@ def recommendations_block(df_local):
 
     d = df_local.copy()
     d["ROAS"] = safe_div(d["REVENUE"], d["SPEND"])
-    d["EMISSIONS_MG_PER_$"] = safe_div(d["TOTAL_EMISSIONS_GRAMS"], d["SPEND"]) * 1000.0
+    d["EMISSIONS_G_PER_$"] = safe_div(d["TOTAL_EMISSIONS_GRAMS"], d["SPEND"])
+    d["EMISSIONS_G_PER_$1K"] = d["EMISSIONS_G_PER_$"] * 1000.0
     d["CONV_RATE"] = safe_div(d.get("TOTAL_CONVERSIONS", 0), d.get("TOTAL_IMPRESSIONS", 0)) * 100.0
 
     med_roas = d["ROAS"].median()
-    med_emiss = d["EMISSIONS_MG_PER_$"].median()
+    med_emiss_g_per_dollar = d["EMISSIONS_G_PER_$"].median()
 
-    scale_df = d[(d["ROAS"] > max(2.5, med_roas)) & (d["EMISSIONS_MG_PER_$"] < 3000)]
-    reduce_df = d[(d["ROAS"] < 1.5) & (d["EMISSIONS_MG_PER_$"] > 5000)]
-    optimize_df = d[((d["ROAS"].between(1.5, 2.5)) | (d["EMISSIONS_MG_PER_$"] > 3000))]
+    ROAS_SCALE_THRESHOLD = max(2.5, med_roas * 1.1)
+    ROAS_REDUCE_THRESHOLD = 1.5
+    EMISSIONS_SCALE_THRESHOLD = med_emiss_g_per_dollar * 0.75
+    EMISSIONS_REDUCE_THRESHOLD = med_emiss_g_per_dollar * 1.25
 
-    def format_list(sub):
+    scale_df = d[
+        (d["ROAS"] >= ROAS_SCALE_THRESHOLD) &
+        (d["EMISSIONS_G_PER_$"] <= EMISSIONS_SCALE_THRESHOLD)
+    ]
+
+    reduce_df = d[
+        (d["ROAS"] <= ROAS_REDUCE_THRESHOLD) &
+        (d["EMISSIONS_G_PER_$"] >= EMISSIONS_REDUCE_THRESHOLD)
+    ]
+
+    all_filtered_indices = scale_df.index.union(reduce_df.index)
+    optimize_df = d[~d.index.isin(all_filtered_indices)]
+
+    def format_list(sub, category):
         if sub.empty:
-            return ["No candidates"]
+            return ["No candidates found for this category."]
         out = []
-        key_cols = ["CAMPAIGN_ID", "AD_FORMAT", "DEVICE_TYPE", "REGION"]
+        key_cols = ["CAMPAIGN_ID", "AD_FORMAT", "DEVICE_TYPE", "REGION", "INVENTORY_ID"]
+
         for _, r in sub.sort_values("SPEND", ascending=False).head(6).iterrows():
-            seg = next((str(r[c]) for c in key_cols if c in r and pd.notna(r[c])), "Segment")
-            out.append(f"{seg} — ROAS {r.get('ROAS',0):.2f}x · {r.get('EMISSIONS_MG_PER_$',0):.0f} mg/$ · Conv {r.get('CONV_RATE',0):.2f}%")
+            seg_id = next((str(r[c]) for c in key_cols if c in r and pd.notna(r[c])), "General Segment")
+
+            roas = r.get('ROAS', 0)
+            emissions_1k = r.get('EMISSIONS_G_PER_$1K', 0)
+            conv_rate = r.get('CONV_RATE', 0)
+
+            if roas >= 2.5:
+                roas_class = "roas-good"
+            elif roas <= 1.5:
+                roas_class = "roas-bad"
+            else:
+                roas_class = "roas-neutral"
+
+            if emissions_1k <= med_emiss_g_per_dollar * 0.75:
+                emiss_class = "emiss-good"
+            elif emissions_1k >= med_emiss_g_per_dollar * 1.25:
+                emiss_class = "emiss-bad"
+            else:
+                emiss_class = "emiss-neutral"
+
+            if category == "SCALE":
+                roas_class = "roas-good"
+                emiss_class = "emiss-good"
+            elif category == "REDUCE":
+                roas_class = "roas-bad"
+                emiss_class = "emiss-bad"
+
+            line1 = (
+                f"<span class='{roas_class}'>ROAS {roas:.2f}x</span> "
+                f"&nbsp;<span style='color:#9ca3af;'>&middot;</span>&nbsp; "
+                f"<span class='{emiss_class}'>{emissions_1k:,.0f} g / $1k</span>"
+            )
+
+            line2 = f"<span style='font-size:12px; color: #9ca3af;'>{seg_id} (Conv {conv_rate:.2f}%)</span>"
+            out.append(f"{line1}<br>{line2}")
+
         return out
 
-    s_list = format_list(scale_df)
-    r_list = format_list(reduce_df)
-    o_list = format_list(optimize_df)
+    s_list = format_list(scale_df, "SCALE")
+    r_list = format_list(reduce_df, "REDUCE")
+    o_list = format_list(optimize_df, "OPTIMIZE")
 
-    st.markdown("### 🎯 Next Best Placement Recommendations", unsafe_allow_html=True)
-    c1, c2, c3 = st.columns(3, gap="large")
-    with c1:
-        st.markdown("#### 🟢 SCALE / INVEST", unsafe_allow_html=True)
-        for i in s_list: st.markdown(f"- {i}")
-    with c2:
-        st.markdown("#### 🔴 REDUCE / AVOID", unsafe_allow_html=True)
-        for i in r_list: st.markdown(f"- {i}")
-    with c3:
-        st.markdown("#### 🟡 OPTIMIZE / REVIEW", unsafe_allow_html=True)
-        for i in o_list: st.markdown(f"- {i}")
+    s_html = format_list_as_html_table_cell(s_list)
+    r_html = format_list_as_html_table_cell(r_list)
+    o_html = format_list_as_html_table_cell(o_list)
+
+    table_html = f"""
+    <div class='reco-block'>
+        <h3>🎯 Next Best Placement Recommendations</h3>
+        <p class='small-muted'>Thresholds are dynamically set based on the filtered dataset's median ROAS and Emissions/$1k.</p>
+        <table class="reco-table">
+            <thead>
+                <tr>
+                    <th>🟢 SCALE / INVEST (High ROAS, Low Carbon Intensity)</th>
+                    <th>🔴 REDUCE / AVOID (Low ROAS, High Carbon Intensity)</th>
+                    <th>🟡 OPTIMIZE / REVIEW (Trade-Offs or Moderate)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{s_html}</td>
+                    <td>{r_html}</td>
+                    <td>{o_html}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    """
+    st.markdown(table_html, unsafe_allow_html=True)
+
 
 recommendations_block(filtered)
 
+
 # -------------------------
-# Filtered data preview
+# Final Layout - DATA PREVIEW TABLE WITH IMPROVED ALIGNMENT & SMALLER INDEX
 # -------------------------
 st.markdown("<div style='margin-top:40px;'></div>", unsafe_allow_html=True)
-st.markdown("#### Filtered Data Preview")
+st.markdown("### 📈 Filtered Data Preview", unsafe_allow_html=True)
 
 table_html = filtered.head(200).to_html(classes="custom-table", index=True, border=0, justify="center")
 
+# Dark-themed HTML with BETTER SPACING and HORIZONTAL SCROLL
 html = f"""
 <style>
-/* styling (grey background + white text) */
 .custom-table-container {{
   background: #2a2a2a;
   padding: 18px;
   border-radius: 10px;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 600px;
+  border: 1px solid #3a3a3a;
 }}
 .custom-table {{
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-width: 1200px;
 }}
 .custom-table thead th {{
   background: #3a3a3a;
   color: #ffffff;
   font-weight: 700;
-  padding: 12px 10px;
-  text-align: left;
+  padding: 14px 16px;
+  text-align: center;
   position: sticky;
   top: 0;
   z-index: 2;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid #444444;
+  white-space: nowrap;
+  min-width: 100px;
+}}
+/* First column (serial/index) - SMALLER */
+.custom-table thead th:first-child {{
+  min-width: 50px;
+  padding: 14px 8px;
+}}
+.custom-table tbody td:first-child {{
+  min-width: 50px;
+  padding: 12px 8px;
+  font-size: 12px;
+  font-weight: 600;
+}}
+.custom-table tbody th {{
+  background: #3a3a3a;
+  color: #cfcfcf;
+  font-weight: 600;
+  padding: 12px 8px;
+  text-align: center;
+  border: 1px solid #444444;
+  min-width: 50px;
+  font-size: 12px;
 }}
 .custom-table tbody td {{
   background: #2a2a2a;
   color: #ffffff;
-  padding: 10px;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
+  padding: 12px 16px;
+  border: 1px solid #3a3a3a;
   vertical-align: middle;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }}
 .custom-table tbody tr:nth-child(even) td {{
-  background: #333333;
+  background: #313131;
 }}
-.custom-table tbody th {{
-  background: transparent;
-  color: #cfcfcf;
-  font-weight: 600;
-  padding: 10px;
-  text-align: left;
+.custom-table tbody tr:hover td {{
+  background: #3a3a3a;
+  cursor: pointer;
 }}
 .wrap {{
   width: 100%;
+}}
+.custom-table-container::-webkit-scrollbar {{
+  height: 10px;
+  width: 10px;
+}}
+.custom-table-container::-webkit-scrollbar-track {{
+  background: #1a1a1a;
+  border-radius: 10px;
+}}
+.custom-table-container::-webkit-scrollbar-thumb {{
+  background: #444444;
+  border-radius: 5px;
+}}
+.custom-table-container::-webkit-scrollbar-thumb:hover {{
+  background: #555555;
 }}
 </style>
 
@@ -993,4 +1158,4 @@ html = f"""
 </div>
 """
 
-components.html(html, height=520, scrolling=True)
+components.html(html, height=650, scrolling=True)
