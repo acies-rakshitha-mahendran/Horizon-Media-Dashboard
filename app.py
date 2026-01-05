@@ -9,7 +9,7 @@ import streamlit.components.v1 as components
 # -------------------------
 # Page config & styling
 # -------------------------
-st.set_page_config(page_title="Horizon Media | Sustainability Intelligence Dashboard", layout="wide")
+st.set_page_config(page_title="Sustainability Intelligence Dashboard", layout="wide")
 
 
 st.markdown(
@@ -452,7 +452,7 @@ hr {
 )
 
 
-st.markdown('<div class="title">Horizon Media | Sustainability Intelligence Dashboard</div>', unsafe_allow_html=True)
+st.markdown('<div class="title">Sustainability Intelligence Dashboard</div>', unsafe_allow_html=True)
 
 
 # -------------------------
